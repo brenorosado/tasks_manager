@@ -12,13 +12,16 @@ export const InputContainer = styled.div`
     gap: clamp(5px, 0.26vw, 0.26vw);
     color: lightgrey;
 
+
     label {
         overflow-wrap: normal;
         word-break: normal;
         min-height: 100%;
+        color: lightgrey;
     }
 
     input {
+        color: lightgrey;
         flex: 1;
         background: #2D2D2D;
         border: none;

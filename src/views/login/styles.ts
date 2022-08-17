@@ -6,6 +6,7 @@ export const PageContainer = styled.div`
     display: flex;
     align-items: center;
     background: #262626;
+    color: white;
 `;
 
 export const ContentContainer = styled.div`
@@ -22,7 +23,12 @@ export const ContentContainer = styled.div`
     border-bottom-right-radius: 100%;
 
     h1 {
+        color: white;
         text-align: center;
+    }
+
+    h2 {
+        color: white;
     }
 
     form {
@@ -43,14 +49,25 @@ export const Separator = styled.div`
 export const TitleContainer = styled.div`
     width: 100%;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0;
-    transition: margin-left 0.3s;
-    transition-timing-function: ease;
+    color: white;
+
+    h1 {
+        color: white;
+    }
+
+    div {
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: clamp(-50px, -2.06vw, -2.06vw);
+        transition: margin-left 0.3s;
+        transition-timing-function: ease;
+    }
 
     :hover {
-        margin-left: clamp(-270px, -14.06vw, -14.06vw);
+        div {
+            margin-left: clamp(-270px, -14.06vw, -14.06vw);
+        }
     }
 `;

@@ -1,12 +1,7 @@
-import { api } from "./api";
-import { AuthenticationPayload } from "./../entities/authenticationResponse";
+import api from "./api";
+import { AuthenticationPayload } from "../entities/authentication";
 
 export const authentication = {
-  createAccount: (payload: AuthenticationPayload) => {
-    return api.post("/accounts", payload);
-  },
-
-  authenticate: (payload: AuthenticationPayload) => {
-    return api.post("/authenticate", payload);
-  }
+  createAccount: (payload: AuthenticationPayload) => api.post("/accounts", payload),
+  authenticate: (payload: AuthenticationPayload) => api.post("/authenticate", payload)
 };

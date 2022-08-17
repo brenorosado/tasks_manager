@@ -16,6 +16,7 @@ export const PasswordInputContainer = styled.div`
         overflow-wrap: normal;
         word-break: normal;
         min-height: 100%;
+        color: lightgrey;
     }
 
     input {
@@ -24,5 +25,6 @@ export const PasswordInputContainer = styled.div`
         border: none;
         outline: none;
         font-size: clamp(20px, 1.04vw, 1.04vw);
+        color: lightgrey;
     }
 `;

@@ -1,12 +1,19 @@
 import { useState, useMemo, useCallback } from "react";
+
 import * as S from "./styles";
 import { Button, SubmitButton } from "../../components/Button/styles";
-import { useForm } from "react-hook-form";
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
+import { AuthenticationPayload } from "../../entities/authentication";
+
 import { Input } from "../../components/Input/Input";
 import { PasswordInput } from "../../components/PasswordInput/PasswordInput";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+
+import { useForm } from "react-hook-form";
 import { authentication } from "../../services/authentication";
-import { AuthenticationPayload } from "./../../entities/authenticationResponse";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = {
   email: "",
@@ -23,13 +30,24 @@ export const Login = () => {
     }, [])
   });
 
-  const onSubmit = async (data: AuthenticationPayload) => {
+  const onSubmit = async (values: AuthenticationPayload) => {
     try {
+      let authenticationRes = {};  
+    
       if (authenticationContent === "signup")
-        await authentication.createAccount(data);
-      else await authentication.authenticate(data);
-    } catch (e) {
-      console.log("e", e);
+        authenticationRes = await authentication.createAccount(values);
+      else authenticationRes = await authentication.authenticate(values);
+
+      const { data }: any = authenticationRes;
+      if (data) {
+        localStorage.setItem("@my_tasks_token", data.token);
+        localStorage.setItem("@my_tasks_id", data.account.id);
+        toast.success(data.message);
+        window.location.href = "/app";
+      }
+    } catch (e: any) {
+      if(e.response.data.message) 
+        toast.error(e.response.data.message);
     }
   };
 
@@ -66,8 +84,10 @@ export const Login = () => {
               reset(initialValues);
             }}
           >
-            <MdKeyboardArrowLeft color="white" size="3.125vw" />
-            <h1 style={{ alignSelf: "center" }}>{authenticationContent === "signin" ? "sign in" : "sign up"}</h1>
+            <div>
+              <MdKeyboardArrowLeft size="3.125vw" />
+              <h1>{authenticationContent === "signin" ? "sign in" : "sign up"}</h1>
+            </div>
           </S.TitleContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
             {contentOption === "signup" && (
@@ -96,10 +116,12 @@ export const Login = () => {
   );
 
   return (
-    <S.PageContainer>
-      <S.ContentContainer>
-        {contentDecider(authenticationContent)}
-      </S.ContentContainer>
-    </S.PageContainer>
+    <>
+      <S.PageContainer>
+        <S.ContentContainer>
+          {contentDecider(authenticationContent)}
+        </S.ContentContainer>
+      </S.PageContainer>
+    </>
   );
 };
