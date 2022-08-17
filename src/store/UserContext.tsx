@@ -24,10 +24,10 @@ const UserContext = createContext<UserContextTypes>({
   getUserData: () => initialValues
 });
 
-const logout = () => {
-  if(window.location.pathname === "/login" || window.location.pathname === "/") return;
+export const logout = () => {
   localStorage.removeItem("@my_tasks_id");
   localStorage.removeItem("@my_tasks_token");
+  if(window.location.pathname === "/login" || window.location.pathname === "/") return;
   window.location.href = "/login";
 };
 
