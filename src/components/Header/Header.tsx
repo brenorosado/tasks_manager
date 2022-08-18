@@ -1,12 +1,12 @@
 import * as S from "./styles";
 
-import { HiMenu } from "react-icons/hi";
+import { SideMenu } from "../SideMenu/SideMenu";
 import { ConfigMenu } from "../ConfigMenu/ConfigMenu";
 
 export const Header = () => {
   return (
     <S.HeaderContainer>
-      <HiMenu />
+      <SideMenu />
       <ConfigMenu/>
     </S.HeaderContainer>
   );
