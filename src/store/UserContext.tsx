@@ -4,8 +4,7 @@ import { User } from "../entities/user";
 
 interface UserContextTypes {
   userData: User;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  getUserData: Function;
+  getUserData: () => Promise<User>;
 }
 
 interface UserProviderTypes {
@@ -21,7 +20,7 @@ const initialValues = {
 
 const UserContext = createContext<UserContextTypes>({
   userData: initialValues,
-  getUserData: () => initialValues
+  getUserData: () => new Promise<User>(() => initialValues)
 });
 
 export const logout = () => {

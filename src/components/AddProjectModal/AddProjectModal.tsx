@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 
 import { icons } from "../../utils/icons";
 
+import { useLoadingContext } from "../../store/LoadingContext";
+
 interface ModalProps {
     active: boolean;
     onClose: () => void,
@@ -21,6 +23,8 @@ const initialValues = {
 };
 
 export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
+  const { setLoading } = useLoadingContext();
+
   const {
     register,
     handleSubmit,
@@ -35,6 +39,7 @@ export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
   };
 
   const onSubmit: SubmitHandler<ProjectPayload> = async (data) => {
+    setLoading(true);
     try {
       await fetchProjects.createProject(data);
       onConfirm();
@@ -43,6 +48,7 @@ export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
         toast.error(e.response.data.message);
     }
     
+    setLoading(false);
     onCancel();
   };
 

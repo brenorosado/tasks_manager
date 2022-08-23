@@ -12,7 +12,6 @@ export const InputContainer = styled.div`
     gap: clamp(5px, 0.26vw, 0.26vw);
     color: lightgrey;
 
-
     label {
         overflow-wrap: normal;
         word-break: normal;

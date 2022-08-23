@@ -1,16 +1,20 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-    width: 100%;
+    width: 100vw;
+    border: 1px solid blue;
     min-height: 100vh;
     display: flex;
     align-items: center;
     background: #262626;
     color: white;
+
+    overflow: hidden;
 `;
 
 export const ContentContainer = styled.div`
-    width: clamp(450px, 40%, 40%);
+    overflow: hidden;
+    width: clamp(450px, 40vw, 40vw);
     height: 130vh;
     position: fixed;
     display: flex;

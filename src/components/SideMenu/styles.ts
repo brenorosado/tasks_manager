@@ -94,6 +94,7 @@ export const ProjectsShowIcon = styled.div<ProjectsShowIconProps>`
 
 export const ProjectsOptionsContainer = styled.div<ProjectsShowIconProps>`
     position: absolute;
+    display: ${props => props.isShowing ? "block" : "none"};
     opacity: ${props => props.isShowing ? "1" : "0"};
     top: 3.5vh;
 
@@ -102,7 +103,29 @@ export const ProjectsOptionsContainer = styled.div<ProjectsShowIconProps>`
     font-size: clamp(14px, 0.729vw, 0.729vw);
 
     a {
+        display: flex;
         width: clamp(250px, 14vw, 14vw);
         padding-left: clamp(50px, 2.6vw, 2.6vw);
+        padding-right: clamp(30px, 1.56vw, 1.56vw);
+    }
+`;
+
+export const ProjectName = styled.span`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
+export const PlusIcon = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    border-radius: 50%;
+    transition: all 0.1s;
+    transition-timing-function: ease;
+
+    :hover {
+        background: rgba(255, 255, 255, 0.1);
     }
 `;

@@ -1,17 +1,25 @@
 import { createContext, useContext, useState } from "react";
 
+interface LoadingContextType {
+  loading: boolean;
+  setLoading: (active: boolean) => void;
+}
+
 interface LoadingProviderTypes {
   children: React.ReactNode
 }
 
-const LoadingContext = createContext<any>({});
+const LoadingContext = createContext<LoadingContextType>({
+  loading: false,
+  setLoading: () => true
+});
 
 export const LoadingProvider = ({ children }: LoadingProviderTypes) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <LoadingContext.Provider value={{loading, setLoading}}>
-      {loading ? <span>carregando</span> : children}
+      {children}
     </LoadingContext.Provider>
   );
 };

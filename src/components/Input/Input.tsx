@@ -1,9 +1,10 @@
 import * as S from "./styles";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputTypes {
     id: string;
     label: string;
-    register: any;
+    register: UseFormRegisterReturn;
 }
 
 export const Input = ({ id, label, register}: InputTypes) => {

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 import * as S from "./styles";
 import { Button, SubmitButton } from "../../components/Button/styles";
@@ -9,11 +9,13 @@ import { AuthenticationPayload } from "../../entities/authentication";
 import { Input } from "../../components/Input/Input";
 import { PasswordInput } from "../../components/PasswordInput/PasswordInput";
 
+import { useLoadingContext } from "../../store/LoadingContext";
 import { useForm } from "react-hook-form";
 import { authentication } from "../../services/authentication";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AxiosResponse } from "axios";
 
 const initialValues = {
   email: "",
@@ -21,34 +23,37 @@ const initialValues = {
   name: ""
 };
 
+type LoginFormValues = {
+  email: string;
+  password: string;
+  name: string;
+}
+
 export const Login = () => {
   const [authenticationContent, setAuthenticationContent] = useState("default");
 
-  const { register, handleSubmit, reset } = useForm({
-    defaultValues: useMemo(() => {
-      return initialValues;
-    }, [])
-  });
+  const { setLoading } = useLoadingContext();
+
+  const { register, handleSubmit, reset } = useForm<LoginFormValues>();
 
   const onSubmit = async (values: AuthenticationPayload) => {
+    setLoading(true);
     try {
-      let authenticationRes = {};  
+      let authenticationRes: AxiosResponse;  
     
       if (authenticationContent === "signup")
         authenticationRes = await authentication.createAccount(values);
       else authenticationRes = await authentication.authenticate(values);
 
-      const { data }: any = authenticationRes;
-      if (data) {
-        localStorage.setItem("@my_tasks_token", data.token);
-        localStorage.setItem("@my_tasks_id", data.account.id);
-        toast.success(data.message);
-        window.location.href = "/app";
-      }
+      const { data } = authenticationRes;
+      localStorage.setItem("@my_tasks_token", data.token);
+      localStorage.setItem("@my_tasks_id", data.account.id);
+      window.location.href = "/app";
     } catch (e: any) {
       if(e.response.data.message) 
         toast.error(e.response.data.message);
     }
+    setLoading(false);
   };
 
   const contentDecider = useCallback(
@@ -85,7 +90,7 @@ export const Login = () => {
             }}
           >
             <div>
-              <MdKeyboardArrowLeft size="3.125vw" />
+              <MdKeyboardArrowLeft size="clamp(60px, 3.125vw, 3.125vw)" />
               <h1>{authenticationContent === "signin" ? "sign in" : "sign up"}</h1>
             </div>
           </S.TitleContainer>

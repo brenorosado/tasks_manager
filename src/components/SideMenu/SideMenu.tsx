@@ -8,15 +8,18 @@ import { AddProjectModal } from "../AddProjectModal/AddProjectModal";
 import { toast } from "react-toastify";
 
 import * as S from "./styles";
-import { AiOutlineSchedule, AiOutlineDown, AiOutlinePlusCircle } from "react-icons/ai";
-import { MdOutlineApps } from "react-icons/md";
+import { AiOutlineSchedule, AiOutlinePlus } from "react-icons/ai";
+import { MdOutlineApps, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { HiMenu } from "react-icons/hi";
 
 import { icons } from "../../utils/icons";
 
+import { ProjectResponse } from "../../entities/project";
+import { AxiosResponse } from "axios";
+
 export const SideMenu = () => {
   const [showOptions, setShowOptions] = useState<boolean>(true);
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectResponse[]>([]);
   const [isShowingProjects, setIsShowingProjects] = useState<boolean>(true);
   const [showProjectModal, setShowProjectModal] = useState<boolean>(false);
 
@@ -24,7 +27,7 @@ export const SideMenu = () => {
     try {
       const projectsRes = await fetchProjects.getUserProjects();
       
-      const { data }: any = projectsRes;
+      const { data }: AxiosResponse = projectsRes;
       console.log("data", data);
       setProjects(data);
 
@@ -77,16 +80,16 @@ export const SideMenu = () => {
                 isShowing={isShowingProjects}
                 onClick={() => setIsShowingProjects(prevState => !prevState)}
               >
-                <AiOutlineDown style={{ display: "flex" }} />
+                <MdOutlineKeyboardArrowDown style={{ display: "flex" }} />
               </S.ProjectsShowIcon>
               <span
                 onClick={() => setIsShowingProjects(prevState => !prevState)}
               >
                 projects
               </span>
-              <div onClick={() => setShowProjectModal(true)}>
-                <AiOutlinePlusCircle color="lightgreen" style={{ display: "flex" }} />
-              </div>
+              <S.PlusIcon onClick={() => setShowProjectModal(true)}>
+                <AiOutlinePlus color="lightgrey" style={{ display: "flex" }} />
+              </S.PlusIcon>
             </S.ProjectsSectionTitle>
 
             <S.ProjectsOptionsContainer isShowing={isShowingProjects}>
@@ -98,9 +101,9 @@ export const SideMenu = () => {
                   }}>
                     {icons.find(icon => icon.id === item.icon)?.element()} 
                   </span>
-                  <span>
+                  <S.ProjectName>
                     {item.name}
-                  </span>
+                  </S.ProjectName>
                 </Link>
               ))}
             </S.ProjectsOptionsContainer>

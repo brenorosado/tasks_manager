@@ -2,15 +2,21 @@ import { GlobalStyle } from "./styles/Global";
 import { RoutesContainer } from "./routes";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "./store/UserContext";
+import { LoadingProvider } from "./store/LoadingContext";
+
+import { Loading } from "./components/Loading/Loading";
 
 const App = () => {
   return (
     <>
-      <UserProvider>
-        <ToastContainer />
-        <GlobalStyle/>
-        <RoutesContainer />
-      </UserProvider>
+      <LoadingProvider>
+        <UserProvider>
+          <Loading />
+          <ToastContainer />
+          <GlobalStyle/>
+          <RoutesContainer />
+        </UserProvider>
+      </LoadingProvider>
     </>
   );
 };
