@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const PageContainer = styled.div`
     width: 100vw;
-    border: 1px solid blue;
+    // border: 1px solid blue;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -25,6 +25,10 @@ export const ContentContainer = styled.div`
     background: #181818;
     border-top-right-radius: 100%;
     border-bottom-right-radius: 100%;
+
+    @media (max-width: 450px) {
+        width: 100%;
+    }
 
     h1 {
         color: white;

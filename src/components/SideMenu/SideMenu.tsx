@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { fetchProjects } from "../../services/projects";
 
-import { AddProjectModal } from "../AddProjectModal/AddProjectModal";
+import { MergeProjectModal } from "../MergeProjectModal/MergeProjectModal";
 import { toast } from "react-toastify";
 
 import * as S from "./styles";
@@ -43,7 +43,7 @@ export const SideMenu = () => {
 
   const closeModal = () => setShowProjectModal(false);
 
-  const onConfirm = () => {
+  const onFinish = () => {
     getProjects();
   }; 
 
@@ -111,10 +111,10 @@ export const SideMenu = () => {
         </S.SideOptions>
       </S.SideOptionsContainer>
 
-      <AddProjectModal
+      <MergeProjectModal
         active={showProjectModal}
         onClose={closeModal}
-        onConfirm={onConfirm}
+        onFinish={onFinish}
       />
     </>
   );

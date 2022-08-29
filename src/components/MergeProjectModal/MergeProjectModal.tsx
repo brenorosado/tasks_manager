@@ -2,7 +2,7 @@ import * as S from "./styles";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { ProjectPayload } from "../../entities/project";
+import { ProjectPayload, ProjectResponse } from "../../entities/project";
 
 import { fetchProjects } from "../../services/projects";
 import { toast } from "react-toastify";
@@ -10,11 +10,13 @@ import { toast } from "react-toastify";
 import { icons } from "../../utils/icons";
 
 import { useLoadingContext } from "../../store/LoadingContext";
+import { useEffect } from "react";
 
 interface ModalProps {
     active: boolean;
-    onClose: () => void,
-    onConfirm: () => void
+    onClose: () => void;
+    onFinish: () => void;
+    projectToBeEdited?: ProjectResponse;
 }
 
 const initialValues = {
@@ -22,7 +24,12 @@ const initialValues = {
   icon: ""
 };
 
-export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
+export const MergeProjectModal = ({ 
+  active,
+  onClose,
+  onFinish,
+  projectToBeEdited = undefined
+}: ModalProps) => {
   const { setLoading } = useLoadingContext();
 
   const {
@@ -41,8 +48,9 @@ export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
   const onSubmit: SubmitHandler<ProjectPayload> = async (data) => {
     setLoading(true);
     try {
-      await fetchProjects.createProject(data);
-      onConfirm();
+      if(projectToBeEdited) await fetchProjects.updateProject(data);
+      else await fetchProjects.createProject(data);
+      onFinish();
     } catch (e: any) {
       if(e.response.data.message) 
         toast.error(e.response.data.message);
@@ -51,6 +59,10 @@ export const AddProjectModal = ({ active, onClose, onConfirm }: ModalProps) => {
     setLoading(false);
     onCancel();
   };
+
+  useEffect(() => {
+    if(projectToBeEdited) reset(projectToBeEdited);
+  }, [active]);
 
   return (
     <S.Overlay active={active}>
