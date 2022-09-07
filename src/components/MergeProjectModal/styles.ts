@@ -119,26 +119,32 @@ export const IconOption = styled.div<IconOptionProps>`
     }
 `;
 
-export const ModalFooter = styled.div`
+interface FooterProps {
+    justifyEnd: boolean;
+}
+
+export const ModalFooter = styled.div<FooterProps>`
     width: 100%;
     height: clamp(65px, 6vh, 6vh);
     border-top: 1px solid #333333;
     display: flex;
-    justify-content: flex-end;
+    justify-content: ${props => props.justifyEnd ? "flex-end" : "space-between"};
     padding: 0.8vh;
     gap: clamp(5.4px, 0.5vh, 0.5vh);
 `;
 
 interface ModalButtonProps {
     action: string;
+    background: string;
 }
 
 export const ModalButton = styled.button<ModalButtonProps>`
+    height: 100%;
     width: clamp(115px, 6vw, 6vw);
     cursor: pointer;
     border: none;
     border-radius: clamp(7px, 0.365vw, 0.365vw);
-    background: ${props => props.action === "cancel" ? "#181818" : "grey"};
+    background: ${props => props.background};
     color: ${props => props.action === "cancel" ? "lightgrey" : "#181818"};
     opacity: 1;
     transition: all 0.2s;

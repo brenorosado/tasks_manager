@@ -92,6 +92,14 @@ export const ProjectsShowIcon = styled.div<ProjectsShowIconProps>`
     transition: all 0.2s;
 `;
 
+interface ProjectLinkContainerProps {
+    selected: boolean;
+}
+
+export const ProjectLinkContainer = styled.div<ProjectLinkContainerProps>`
+    background: ${props => props.selected ? "rgba(255, 255, 255, 0.01)" : ""};
+`;
+
 export const ProjectsOptionsContainer = styled.div<ProjectsShowIconProps>`
     position: absolute;
     display: ${props => props.isShowing ? "block" : "none"};

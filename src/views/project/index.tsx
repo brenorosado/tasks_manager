@@ -37,28 +37,15 @@ export const Project = () => {
   };
 
   const getProjectTasks = async () => {
-    if(project?.id) {
-      setLoading(true);
-      try {
-        const categoriesRes = await fetchCategory.getProjectCategories(id as string);
-        const { data } = categoriesRes;
-        setCategories(data);
-      } catch (e: any) {
-        if(e.message)
-          toast.error(e.message);
-      }
-    }
-  };
-
-  const addCategory = async (name: string) => {
     setLoading(true);
     try {
-      await fetchCategory.createCategory({ name, projectId: id as string });
+      const categoriesRes = await fetchCategory.getProjectCategories(id as string);
+      const { data } = categoriesRes;
+      setCategories(data);
     } catch (e: any) {
       if(e.message)
         toast.error(e.message);
     }
-    getProjectTasks();
     setLoading(false);
   };
 
@@ -72,7 +59,9 @@ export const Project = () => {
       <S.ProjectPageContainer>
         <S.ProjectHeader>
           <div>
-            <h1 style={{ display: "flex", color: "lightgrey" }}>{icons.find(icon => icon.id === project?.icon)?.element()}</h1>
+            <h1 style={{ display: "flex", color: "lightgrey" }}>
+              {icons.find(icon => icon.id === project?.icon)?.element()}
+            </h1>
             <h1>{project?.name}</h1>
           </div>
           <S.EditProjectButton onClick={() => setIsEditingProject(true)}>
@@ -80,7 +69,7 @@ export const Project = () => {
           </S.EditProjectButton>
         </S.ProjectHeader>
         
-        <KanbanTasksView categories={categories} addCategory={addCategory} />
+        <KanbanTasksView categories={categories} updateCategoriesAndTasks={getProjectTasks}/>
       </S.ProjectPageContainer>
       <MergeProjectModal
         projectToBeEdited={project}

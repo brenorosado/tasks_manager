@@ -1,60 +1,38 @@
 import * as S from "./styles";
-import { TbSection } from "react-icons/tb";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { Category } from "../../entities/category";
+import { KanbanCategoryHeader } from "../KanbanCategoryHeader/KanbanCategoryHeader";
+import { AiOutlinePlus } from "react-icons/ai";
 
 interface KanbanTasksViewProps {
-  addCategory: (name: string) => void;
   categories: Category[];
+  updateCategoriesAndTasks: () => void
 }
 
-type CategoryFormValues = {
-  name: string;
-}
-
-export const KanbanTasksView = ({ addCategory, categories }: KanbanTasksViewProps) => {
-  const [addingCategory, setAddingCategory] = useState<boolean>(false);
-
-  const { register, handleSubmit, reset } = useForm<CategoryFormValues>();
-
-  console.log("categories", categories);
-  
-  const mergeCategory = (values: any) => {
-    console.log("values", values);
-    addCategory(values.name);
-  };
-
+export const KanbanTasksView = ({ categories, updateCategoriesAndTasks }: KanbanTasksViewProps) => {
   return (
     <S.KanbanTasksViewContainer>
       {categories.map(category => (
         <S.CategoryColumn key={category.id}>
-          <S.CategoryTitle>{category.name}</S.CategoryTitle>
+          <KanbanCategoryHeader
+            updateCategoriesAndTasks={updateCategoriesAndTasks}
+            categoryId={category.id}
+            categoryName={category.name}
+          />
+          <S.AddTaskContainer>
+            <span>
+              <AiOutlinePlus style={{ display: "flex" }} />
+            </span>
+            <span>
+              add task
+            </span>
+          </S.AddTaskContainer>
         </S.CategoryColumn>
       ))}
+
       <S.CategoryColumn>
-        {!addingCategory && (
-          <S.AddCategoryButton onClick={() => setAddingCategory(true)}>
-            <S.CategoryIcon style={{ display: "flex" }}>
-              <TbSection color="orange"/>
-            </S.CategoryIcon>
-            <span>add new category</span>
-          </S.AddCategoryButton>
-        )}
-        {addingCategory && (
-          <S.AddCategoryFieldContainer>
-            <form onSubmit={handleSubmit(mergeCategory)}>
-              <input { ...register("name", { required: true }) } />
-              <div>
-                <button onClick={() => {
-                  setAddingCategory(false);
-                  reset({ name: "" });
-                }}>cancel</button>
-                <button type="submit">add category</button>
-              </div>
-            </form>
-          </S.AddCategoryFieldContainer>
-        )}
+        <KanbanCategoryHeader
+          updateCategoriesAndTasks={updateCategoriesAndTasks}
+        />
       </S.CategoryColumn>
     </S.KanbanTasksViewContainer>
   );

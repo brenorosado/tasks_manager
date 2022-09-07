@@ -58,6 +58,22 @@ export const MergeProjectModal = ({
     
     setLoading(false);
     onCancel();
+    window.location.reload();
+  };
+
+  const deleteProject = () => {
+    if(projectToBeEdited) {
+      setLoading(true);
+      try {
+        fetchProjects.deleteProject(projectToBeEdited.id);
+      } catch (e: any) {
+        if(e.response.data.message) 
+          toast.error(e.response.data.message);
+      }
+      setLoading(false);
+      onClose();
+      window.location.pathname = "/app";
+    }
   };
 
   useEffect(() => {
@@ -97,9 +113,39 @@ export const MergeProjectModal = ({
           </form>
         </S.ModalBody>
 
-        <S.ModalFooter>
-          <S.ModalButton action="cancel" onClick={onCancel}>cancel</S.ModalButton>
-          <S.ModalButton type="submit" onClick={handleSubmit(onSubmit)} action="confirm">create</S.ModalButton>
+        <S.ModalFooter justifyEnd={!projectToBeEdited?.id}>
+          {!!projectToBeEdited?.id && (
+            <S.ModalButton
+              action="cancel"
+              onClick={deleteProject}
+              background="#4a0000"
+            >
+              delete
+            </S.ModalButton>
+          )}
+
+          <div 
+            style={{
+              display: "flex",
+              gap: "clamp(5.4px, 0.5vh, 0.5vh)"
+            }}
+          >
+            <S.ModalButton
+              action="cancel"
+              background="#181818"
+              onClick={onCancel}
+            >
+              cancel
+            </S.ModalButton>
+            <S.ModalButton
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+              action="confirm"
+              background="grey"
+            >
+                create
+            </S.ModalButton>
+          </div>
         </S.ModalFooter>
       </S.Modal>
     </S.Overlay>

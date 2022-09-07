@@ -5,7 +5,8 @@ export const ProjectPageContainer = styled.div`
     width: 100vw;
     height: 92vh;
     padding: clamp(15px, 0.78125vw, 78125vw);
-    // padding-left: clamp(270px, 15vw, 15vw);
+    padding-left: clamp(270px, 15vw, 15vw);
+    padding-right: clamp(270px, 15vw, 15vw);
     overflow: hidden;
 `;
 

@@ -6,7 +6,6 @@ import { fetchProjects } from "../../services/projects";
 
 import { MergeProjectModal } from "../MergeProjectModal/MergeProjectModal";
 import { toast } from "react-toastify";
-
 import * as S from "./styles";
 import { AiOutlineSchedule, AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineApps, MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -22,13 +21,19 @@ export const SideMenu = () => {
   const [projects, setProjects] = useState<ProjectResponse[]>([]);
   const [isShowingProjects, setIsShowingProjects] = useState<boolean>(true);
   const [showProjectModal, setShowProjectModal] = useState<boolean>(false);
+  const [projectId, setProjectId] = useState<string>("");
+
+  useEffect(() => {
+    setProjectId(window.location.pathname.split("/")[
+      window.location.pathname.split("/").length -1 
+    ]);
+  }, []);
 
   const getProjects = async () => {
     try {
       const projectsRes = await fetchProjects.getUserProjects();
       
       const { data }: AxiosResponse = projectsRes;
-      console.log("data", data);
       setProjects(data);
 
     } catch (e: any) {
@@ -94,17 +99,19 @@ export const SideMenu = () => {
 
             <S.ProjectsOptionsContainer isShowing={isShowingProjects}>
               {projects.map((item, index) => (
-                <Link to={`/project/${item.id}`} key={index}>
-                  <span style={{
-                    display: "flex",
-                    color: "orange"
-                  }}>
-                    {icons.find(icon => icon.id === item.icon)?.element()} 
-                  </span>
-                  <S.ProjectName>
-                    {item.name}
-                  </S.ProjectName>
-                </Link>
+                <S.ProjectLinkContainer onClick={() => setProjectId(item.id)} selected={projectId === item.id} key={index}>
+                  <Link to={`/project/${item.id}`}>
+                    <span style={{
+                      display: "flex",
+                      color: "orange"
+                    }}>
+                      {icons.find(icon => icon.id === item.icon)?.element()} 
+                    </span>
+                    <S.ProjectName>
+                      {item.name}
+                    </S.ProjectName>
+                  </Link>
+                </S.ProjectLinkContainer>
               ))}
             </S.ProjectsOptionsContainer>
           </S.ProjectsContainer>

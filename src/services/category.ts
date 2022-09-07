@@ -3,6 +3,7 @@ import { Category } from "../entities/category";
 
 export default {
   createCategory: (payload: Category) => api.post("/categories", payload),
-  
-  getProjectCategories: (projectId: string) => api.get(`/tasks?projectId=${projectId}`)
+  updateCategory: (payload: Category) => api.put("/categories", payload),
+  deleteCategory: (categoryId: string) => api.delete(`/categories?id=${categoryId}`),
+  getProjectCategories: (projectId: string) => api.get(`/categories?projectId=${projectId}`)
 };

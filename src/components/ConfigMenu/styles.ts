@@ -28,7 +28,7 @@ export const OptionsContainer = styled.div`
     background: #262626;
     color: lightgrey;
     position: absolute;
-    border: 0.1vh solid black;
+    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.4);
     width: clamp(180px, 10.41vw, 10.41vw);
     border-radius: clamp(10px, 0.52vw, 0.52vw);
     right: 0;
